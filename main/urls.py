@@ -8,6 +8,8 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('', home, name='home'),
     path('category-list', category_list, name='category-list'),
+    path('brand-list', brand_list, name='brand-list'),
+    path('product-list', product_list, name='product-list'),
 ]
 
 if settings.DEBUG:
