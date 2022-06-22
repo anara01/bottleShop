@@ -1,9 +1,15 @@
 from django.contrib import admin
 from .models import *
 
-admin.site.register(Banner)
 admin.site.register(Brand)
 admin.site.register(Size)
+
+
+class BanneryAdmin(admin.ModelAdmin):
+    list_display = ('alt_text', 'image_tag')
+
+
+admin.site.register(Banner, BanneryAdmin)
 
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -21,8 +27,8 @@ admin.site.register(Color, ColorAdmin)
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'brand', 'color', 'size', 'status')
-    list_editable = ('status',)
+    list_display = ('id', 'title', 'brand', 'status', 'is_featured')
+    list_editable = ('status', 'is_featured',)
 
 
 admin.site.register(Product, ProductAdmin)
