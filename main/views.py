@@ -12,6 +12,6 @@ def home(request):
 def category_list(request):
     data = Category.objects.all().order_by('-id')
     return render(request, 'category_list.html', {'data': data})
-
+	
 
 # Brands
