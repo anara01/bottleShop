@@ -13,7 +13,8 @@ urlpatterns = [
     path('category-product-list/<int:cat_id>',
          category_product_list, name='category-product-list'),
     path('brand-product-list/<int:brand_id>',
-         brand_product_list, name='brand-product-list')
+         brand_product_list, name='brand-product-list'),
+    path('product/<str:slug>/<int:id>', product_detail, name='product_detail'),
 ]
 
 if settings.DEBUG:
