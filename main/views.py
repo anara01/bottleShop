@@ -2,9 +2,8 @@ from django.shortcuts import render
 from .models import *
 from django.db.models import Max, Min
 
+
 # Home Page
-
-
 def home(request):
     banners = Banner.objects.all().order_by('-id')
     data = Product.objects.filter(is_featured=True).order_by('-id')
@@ -66,3 +65,10 @@ def brand_product_list(request, brand_id):
 def product_detail(request, slug, id):
     product = Product.objects.get(id=id)
     return render(request, 'product_detail.html', {'data': product})
+
+
+# search
+def search(request):
+    q = request.GET['q']
+    data = Product.objects.filter(title__icontains=q).order_by('-id')
+    return render(request, 'search.html', {'data': data})
