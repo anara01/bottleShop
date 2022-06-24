@@ -1,7 +1,8 @@
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import render
 from .models import *
-from django.db.models import Max, Min
+from django.db.models import Max, Min, Count
+from django.template.loader import render_to_string
 
 
 # Home Page
@@ -77,18 +78,44 @@ def search(request):
     return render(request, 'search.html', {'data': data})
 
 
-
 # Filter Products
 def filter_product(request):
-	colors = request.GET.getlist('color[]')
-	categories = request.GET.getlist('category[]')
-	brands = request.GET.getlist('brand[]')
-	sizes = request.GET.getlist('size[]')
-	filterProducts = ProductAttribute.objects.filter(
-		color__id__in = colors,
-		product__category__id__in = categories,
-		#product__brand__id__in = brands,
-		#size__id__in = sizes,
-	)
-	return HttpResponse(filterProducts.query)
-	#return JsonResponse({'data': list(filerProducts)})
+    colors = request.GET.getlist('color[]')
+    categories = request.GET.getlist('category[]')
+    brands = request.GET.getlist('brand[]')
+    sizes = request.GET.getlist('size[]')
+    filterProducts = ProductAttribute.objects.filter(
+        color__id__in=colors,
+        product__category__id__in=categories,
+        #product__brand__id__in = brands,
+        #size__id__in = sizes,
+    )
+    return HttpResponse(filterProducts.query)
+    # return JsonResponse({'data': list(filerProducts)})
+
+
+# Filter Data
+def filter_data(request):
+    colors = request.GET.getlist('color[]')
+    categories = request.GET.getlist('category[]')
+    brands = request.GET.getlist('brand[]')
+    sizes = request.GET.getlist('size[]')
+    # allProducts = Product.objects.all().distinct('title').order_by('-id')
+    allProducts = Product.objects.all().order_by('-id')
+    # Color Filter
+    if len(colors) > 0:
+        allProducts = allProducts.filter(
+            productattribute__color__id__in=colors).distinct()
+    if len(categories) > 0:
+        allProducts = allProducts.filter(
+            category__id__in=categories).distinct()
+    if len(brands) > 0:
+        allProducts = allProducts.filter(brand__id__in=brands).distinct()
+    if len(sizes) > 0:
+        allProducts = allProducts.filter(
+            productattribute__size__id__in=sizes).distinct()
+
+    # return HttpResponse(allProducts.query)
+    t = render_to_string('ajax/product-list.html', {'data': allProducts})
+    return JsonResponse({'data': t})
+    # return JsonResponse({'data': list(allProducts)})

@@ -16,6 +16,7 @@ urlpatterns = [
     path('brand-product-list/<int:brand_id>',
          brand_product_list, name='brand-product-list'),
     path('product/<str:slug>/<int:id>', product_detail, name='product_detail'),
+    path('filter-data', filter_data, name='filter_data'),
 ]
 
 if settings.DEBUG:
