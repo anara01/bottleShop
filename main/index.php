@@ -1,27 +1,21 @@
-{% extends 'base.html' %}
-{% load static %}
-{% block content %}
+<?php require('header.php'); ?>
 <!-- Home Slider -->
 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
   <ol class="carousel-indicators">
-	{% for banner in banners %}
-		{% if forloop.counter == 1 %}
-    		<li data-target="#carouselExampleIndicators" data-slide-to="{{forloop.counter}}" class="active"></li>
-		{% else %}
-    		<li data-target="#carouselExampleIndicators" data-slide-to="{{forloop.counter}}"></li>
-		{% endif %}
-	{% endfor %}
+    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
   </ol>
   <div class="carousel-inner">
-	{% for banner in banners %}
-		{% if forloop.counter == 1 %}
-			<div class="carousel-item active">
-		{% else %}
-			<div class="carousel-item">
-		{% endif %}
-			<img src="/media/{{banner.img}}" class="d-block w-100" alt="...">
-    	</div>
-	{% endfor %}
+    <div class="carousel-item active">
+      <img src="<?php echo $baseUrl; ?>/images/banners/1.jpg" class="d-block w-100" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src="<?php echo $baseUrl; ?>/images/banners/2.jpg" class="d-block w-100" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src="<?php echo $baseUrl; ?>/images/banners/3.jpg" class="d-block w-100" alt="...">
+    </div>
   </div>
   <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -36,13 +30,14 @@
 	<!-- Featured Products -->
 	<h3 class="my-4 border-bottom pb-1">Featured Products</h3>
 	<div class="row">
-		{% for product in data %}
+		<?php
+		for($i=1; $i<=6; $i++){
+		?>
 		<div class="col-md-3 mb-4">
 			<div class="card shadow">
-			  <a href="/product/{{product.slug}}/{{product.id}}"><img src="/media/{{product.productattribute_set.first.image}}" class="card-img-top" alt="{{product.title}}"></a>
+			  <a href="<?php echo $baseUrl; ?>/detail.php"><img src="<?php echo $baseUrl; ?>/images/<?php echo $i; ?>.jpg" class="card-img-top" alt="..."></a>
 			  <div class="card-body">
-			    <h5 class="card-text"><a href="/product/{{product.slug}}/{{product.id}}">{{product.title}}</a></h5>
-				<h6>Rs. {{product.productattribute_set.first.price}}</h6>
+			    <h6 class="card-text"><a href="<?php echo $baseUrl; ?>/detail.php">Bottle <?php echo $i; ?></a></h6>
 			  </div>
 			  <div class="card-footer">
 			  	<button class="btn btn-sm btn-primary"><i class="fa fa-shopping-cart"></i></button>
@@ -54,8 +49,8 @@
 			  </div>
 			</div>
 		</div>
-		{% endfor %}
+		<?php } ?>
 	</div>
-	<p class="my-4 text-center"><a href="{% url 'product-list' %}" class="btn btn-dark btn-sm">All Products <i class="fa fa-long-arrow-alt-right"></i></a></p>
+	<p class="my-4 text-center"><a href="<?php echo $baseUrl; ?>/products.php" class="btn btn-dark btn-sm">All Products <i class="fa fa-long-arrow-alt-right"></i></a></p>
 </main>
-{% endblock %}
+<?php require('footer.php'); ?>
